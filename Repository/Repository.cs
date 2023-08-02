@@ -26,13 +26,6 @@ namespace AlunosAPI.Repository
             #pragma warning restore CS8603 // Possível retorno de referência nula.
         }
 
-        public async Task<T> GetByNome(Expression<Func<T, bool>> predicate)
-        {
-            #pragma warning disable CS8603 // Possível retorno de referência nula.
-            return await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(predicate);
-            #pragma warning restore CS8603 // Possível retorno de referência nula.
-        }
-
         public void Add(T entity)
         {
             _context.Set<T>().Add(entity);
