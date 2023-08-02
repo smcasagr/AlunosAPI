@@ -1,11 +1,13 @@
 ﻿using AlunosAPI.Models;
+using AlunosAPI.Pagination;
+using AlunosAPI.Repository.Interfaces;
 
 namespace AlunosAPI.Repository.Services
 {
-    public interface IAlunoRepository
+    public interface IAlunoRepository : IRepository<Aluno>
     {
-        Task<IEnumerable<Aluno>> GetAlunos();
-        Task<Aluno> GetAlunoById(int id);
+        Task<PagedList<Aluno>> GetAlunos(AlunosParameter alunosParameter);
+        Task<IEnumerable<Aluno>> GetAlunoById(int id);
         Task<IEnumerable<Aluno>> GetAlunosByNome(string nome);
         Task CreateAluno(Aluno aluno);
         Task UpdateAluno(Aluno aluno);

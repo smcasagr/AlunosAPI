@@ -48,7 +48,5 @@ namespace AlunosAPI.Repository
         {
             _context.Set<T>().Remove(entity);
         }
-
-
     }
 }

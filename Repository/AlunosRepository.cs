@@ -1,6 +1,8 @@
 ﻿using AlunosAPI.Context;
 using AlunosAPI.Models;
+using AlunosAPI.Pagination;
 using AlunosAPI.Repository.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace AlunosAPI.Repository
 {
@@ -8,19 +10,30 @@ namespace AlunosAPI.Repository
     {
         public AlunosRepository(AppDbContext context) : base(context) { }
 
-        public Task<IEnumerable<Aluno>> GetAlunos()
+        public async Task<PagedList<Aluno>> GetAlunos(AlunosParameter alunosParameter)
         {
-            throw new NotImplementedException();
+            return await PagedList<Aluno>.ToPagedList(
+                GetAll().OrderBy(on => on.Id), alunosParameter.PageNumber);
         }
 
-        public Task<Aluno> GetAlunoById(int id)
+        public async Task<Aluno> GetAlunoById(int id)
         {
-            throw new NotImplementedException();
+            var aluno = await _context.Alunos.FindAsync(id);
+            return aluno;
         }
 
-        public Task<IEnumerable<Aluno>> GetAlunosByNome(string nome)
+        public async Task<IEnumerable<Aluno>> GetAlunosByNome(string nome)
         {
-            throw new NotImplementedException();
+            if (!string.IsNullOrWhiteSpace(nome))
+            {
+                var aluno = await GetAll().Where(aluno => aluno.Nome.Contains(nome)).ToListAsync();
+                return aluno;
+            }
+            else
+            {
+                var aluno = await GetAll().ToListAsync();
+                return aluno;
+            }
         }
 
         public Task CreateAluno(Aluno aluno)
