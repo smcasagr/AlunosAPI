@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AlunosAPI.Repository
 {
-    public class AlunosRepository : IAlunoRepository, Repository<Aluno>
+    public class AlunosRepository : Repository<Aluno>, IAlunoRepository
     {
         public AlunosRepository(AppDbContext context) : base(context) { }
 
@@ -14,12 +14,6 @@ namespace AlunosAPI.Repository
         {
             return await PagedList<Aluno>.ToPagedList(
                 GetAll().OrderBy(on => on.Id), alunosParameter.PageNumber);
-        }
-
-        public async Task<Aluno> GetAlunoById(int id)
-        {
-            var aluno = await _context.Alunos.FindAsync(id);
-            return aluno;
         }
 
         public async Task<IEnumerable<Aluno>> GetAlunosByNome(string nome)
@@ -34,21 +28,6 @@ namespace AlunosAPI.Repository
                 var aluno = await GetAll().ToListAsync();
                 return aluno;
             }
-        }
-
-        public Task CreateAluno(Aluno aluno)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAluno(Aluno aluno)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteAluno(Aluno aluno)
-        {
-            throw new NotImplementedException();
         }
     }
 }
