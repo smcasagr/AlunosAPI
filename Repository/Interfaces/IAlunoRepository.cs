@@ -1,8 +1,8 @@
 ﻿using AlunosAPI.Models;
 
-namespace AlunosAPI.Services
+namespace AlunosAPI.Repository.Services
 {
-    public interface IAlunoService
+    public interface IAlunoRepository
     {
         Task<IEnumerable<Aluno>> GetAlunos();
         Task<Aluno> GetAlunoById(int id);
