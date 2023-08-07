@@ -6,8 +6,7 @@ namespace AlunosAPI.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private AlunosRepository _alunoRepo;
-
+        private AlunoRepository _alunoRepo;
         public AppDbContext _context;
 
         public UnitOfWork(AppDbContext context)
@@ -19,7 +18,7 @@ namespace AlunosAPI.Repository
         {
             get
             {
-                return _alunoRepo = _alunoRepo ?? new AlunosRepository(_context);
+                return _alunoRepo = _alunoRepo ?? new AlunoRepository(_context);
             }
         }
 

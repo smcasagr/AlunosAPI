@@ -4,7 +4,7 @@ namespace AlunosAPI.Repository.Interfaces
 {
     public interface IRepository<T>
     {
-        IQueryable<T> GetAll();
+        IQueryable<T> Get();
 
         Task<T> GetById(Expression<Func<T, bool>> predicate);
 

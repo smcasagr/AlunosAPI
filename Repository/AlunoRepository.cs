@@ -6,26 +6,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AlunosAPI.Repository
 {
-    public class AlunosRepository : Repository<Aluno>, IAlunoRepository
+    public class AlunoRepository : Repository<Aluno>, IAlunoRepository
     {
-        public AlunosRepository(AppDbContext context) : base(context) { }
+        public AlunoRepository(AppDbContext context) : base(context) { }
 
         public async Task<PagedList<Aluno>> GetAlunos(AlunosParameter alunosParameter)
         {
             return await PagedList<Aluno>.ToPagedList(
-                GetAll().OrderBy(on => on.Id), alunosParameter.PageNumber);
+                Get().OrderBy(on => on.Id), alunosParameter.PageNumber);
         }
 
         public async Task<IEnumerable<Aluno>> GetAlunosByNome(string nome)
         {
             if (!string.IsNullOrWhiteSpace(nome))
             {
-                var aluno = await GetAll().Where(aluno => aluno.Nome.Contains(nome)).ToListAsync();
+                var aluno = await Get().Where(aluno => aluno.Nome.Contains(nome)).ToListAsync();
                 return aluno;
             }
             else
             {
-                var aluno = await GetAll().ToListAsync();
+                var aluno = await Get().ToListAsync();
                 return aluno;
             }
         }

@@ -1,5 +1,9 @@
 
 using AlunosAPI.Context;
+using AlunosAPI.DTOs.Mapping;
+using AlunosAPI.Repository.Interfaces;
+using AlunosAPI.Repository;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace AlunosAPI
@@ -17,6 +21,18 @@ namespace AlunosAPI
             );
 
             builder.Services.AddControllers();
+
+            // Registrando serviço do Unit of Work (repositório)
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            // Registrando o serviço o AutoMapper
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            builder.Services.AddSingleton(mapper);
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -32,7 +48,7 @@ namespace AlunosAPI
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
 
             app.MapControllers();
