@@ -22,13 +22,15 @@ namespace AlunosAPI.Pagination
             AddRange(items);
         }
 
-        public async static Task<PagedList<T>> ToPagedList(IQueryable<T> source, int pageNumber)
+        public async static Task<PagedList<T>> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize)
         {
-            int pageSize = 20;
+            // Limita número de itens exibidos
+            if (pageSize > 10)
+                pageSize = 10;
+
             var count = source.Count();
 
             var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-            //Console.WriteLine("aqui:" + pageNumber + 1 + pageSize + pageSize);
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
     }

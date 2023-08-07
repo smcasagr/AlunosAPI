@@ -1,7 +1,4 @@
 ﻿namespace AlunosAPI.Pagination
 {
-    public class AlunosParameter
-    {
-        public int PageNumber { get; set; } = 1;
-    }
+    public class AlunosParameter : QueryStringParameters { }
 }

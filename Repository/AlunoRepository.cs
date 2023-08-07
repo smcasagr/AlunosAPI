@@ -13,7 +13,9 @@ namespace AlunosAPI.Repository
         public async Task<PagedList<Aluno>> GetAlunos(AlunosParameter alunosParameter)
         {
             return await PagedList<Aluno>.ToPagedList(
-                Get().OrderBy(on => on.Id), alunosParameter.PageNumber);
+                Get().OrderBy(on => on.Id),
+                alunosParameter.PageNumber,
+                alunosParameter.PageSize);
         }
 
         public async Task<IEnumerable<Aluno>> GetAlunosByNome(string nome)
