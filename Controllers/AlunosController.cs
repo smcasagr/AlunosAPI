@@ -57,6 +57,17 @@ namespace AlunosAPI.Controllers
             return alunoDTO;
         }
 
+        [HttpGet("AlunoPorNome")]
+        public async Task<ActionResult<IEnumerable<AlunoDTO>>> GetAlunosByNome([FromQuery] string nome)
+        {
+            var alunos = await _uof.AlunoRepository.GetAlunosByNome(nome);
+            if (alunos == null)
+                return NotFound($"Não existem alunos com nome = {nome}");
+
+            var alunosDTO = _mapper.Map<List<AlunoDTO>>(alunos);
+            return Ok(alunosDTO);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post([FromBody]AlunoDTO alunoDTO)
         {
