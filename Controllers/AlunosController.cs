@@ -73,5 +73,20 @@ namespace AlunosAPI.Controllers
             return new CreatedAtRouteResult("ObterAluno",
                 new { id = aluno.Id }, _alunoDTO);
         }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put(int id, AlunoDTO alunoDTO)
+        {
+            if (id != alunoDTO.Id)
+                return BadRequest();
+
+            var aluno = _mapper.Map<Aluno>(alunoDTO);
+
+            _uof.AlunoRepository.Update(aluno);
+            await _uof.Commit();
+
+            return Ok();
+        }
+
     }
 }
