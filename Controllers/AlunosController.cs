@@ -87,7 +87,7 @@ namespace AlunosAPI.Controllers
             _uof.AlunoRepository.Update(aluno);
             await _uof.Commit();
 
-            return Ok();
+            return Ok($"Aluno ID {id} atualizado com sucesso!");
         }
 
         [HttpDelete("{id:int}")]
