@@ -41,5 +41,17 @@ namespace AlunosAPI.Controllers
             var alunosDTO = _mapper.Map<List<AlunoDTO>>(alunos);
             return alunosDTO;
         }
+
+        [HttpGet("{id}", Name = "ObterAluno")]
+        public async Task<ActionResult<AlunoDTO>> Get(int id)
+        {
+            var aluno = await _uof.AlunoRepository.GetById(p => p.Id == id);
+
+            if (aluno == null)
+                return NotFound($"Aluno ID: {id} não encontrado!");
+
+            var alunoDTO = _mapper.Map<AlunoDTO>(aluno);
+            return alunoDTO;
+        }
     }
 }
