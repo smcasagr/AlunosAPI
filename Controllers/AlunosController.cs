@@ -1,4 +1,5 @@
 ﻿using AlunosAPI.DTOs;
+using AlunosAPI.Models;
 using AlunosAPI.Pagination;
 using AlunosAPI.Repository.Interfaces;
 using AutoMapper;
@@ -52,6 +53,25 @@ namespace AlunosAPI.Controllers
 
             var alunoDTO = _mapper.Map<AlunoDTO>(aluno);
             return alunoDTO;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody]AlunoDTO alunoDTO)
+        {
+            var aluno = _mapper.Map<Aluno>(alunoDTO);
+
+            if (aluno == null)
+                return BadRequest("Erro ao tentar salvar o aluno!");
+
+            _uof.AlunoRepository.Add(aluno);
+            await _uof.Commit();
+
+            var _alunoDTO = _mapper.Map<AlunoDTO>(aluno);
+
+            // informa o aluno salvo no header
+            // Aciona a rota informada, com o ID informado
+            return new CreatedAtRouteResult("ObterAluno",
+                new { id = aluno.Id }, _alunoDTO);
         }
     }
 }
