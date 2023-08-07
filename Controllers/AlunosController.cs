@@ -88,5 +88,20 @@ namespace AlunosAPI.Controllers
             return Ok();
         }
 
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<AlunoDTO>> Delete(int id)
+        {
+            var aluno = await _uof.AlunoRepository.GetById(p => p.Id == id);
+            if (aluno is null)
+                return NotFound($"Aluno ID {id} não localizado!");
+
+            _uof.AlunoRepository.Delete(aluno);
+            await _uof.Commit();
+
+            var alunoDTO = _mapper.Map<AlunoDTO>(aluno);
+
+            return Ok(alunoDTO);
+        }
+
     }
 }
