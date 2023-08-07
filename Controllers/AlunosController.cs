@@ -26,6 +26,8 @@ namespace AlunosAPI.Controllers
         public async Task<ActionResult<IEnumerable<AlunoDTO>>> Get([FromQuery] AlunosParameter alunosParameter)
         {
             var alunos = await _uof.AlunoRepository.GetAlunos(alunosParameter);
+            if (alunos is null)
+                return NotFound("Nenhum aluno cadastrado!");
 
             // Dados paginação
             var metadata = new
