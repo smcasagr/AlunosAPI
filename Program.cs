@@ -37,6 +37,17 @@ namespace AlunosAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", c =>
+                {
+                    c.WithOrigins("http://localhost:3000")
+                     .AllowAnyHeader()
+                     .AllowAnyMethod();
+
+                });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -46,10 +57,11 @@ namespace AlunosAPI
                 app.UseSwaggerUI();
             }
 
+            app.UseCors();
+
             app.UseHttpsRedirection();
-
+            app.UseRouting();
             //app.UseAuthorization();
-
 
             app.MapControllers();
 
