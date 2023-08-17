@@ -12,6 +12,7 @@ namespace AlunosAPI
     {
         public static void Main(string[] args)
         {
+            var CustomPolicy = "_customPolicy";
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -39,13 +40,13 @@ namespace AlunosAPI
 
             builder.Services.AddCors(opt =>
             {
-                opt.AddPolicy("CorsPolicy", c =>
-                {
-                    c.WithOrigins("http://localhost:3000")
-                     .AllowAnyHeader()
-                     .AllowAnyMethod();
-
-                });
+                opt.AddPolicy(CustomPolicy,
+                              policy =>
+                              {
+                                  policy.WithOrigins("http://localhost:3000")
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                              });
             });
 
             var app = builder.Build();
@@ -57,11 +58,11 @@ namespace AlunosAPI
                 app.UseSwaggerUI();
             }
 
-            app.UseCors();
+            app.UseCors(CustomPolicy);
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
             app.MapControllers();
 
